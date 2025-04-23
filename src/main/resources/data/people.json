@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "Mikk",
+    "lastName": "Mets",
+    "birthDate": "2001-01-30",
+    "email": "mikkmets1@gmail.com",
+    "phoneNumber": "56297529",
+    "internetSpeedMbps": 1000,
+    "stillUsesLandline": false
+  },
+  {
+    "firstName": "Anu",
+    "lastName": "Tamm",
+    "birthDate": "1988-11-01",
+    "email": "tammmmmanu@gmail.com",
+    "phoneNumber": "59372888",
+    "internetSpeedMbps": 200,
+    "stillUsesLandline": false
+  },
+  {
+    "firstName": "Maie",
+    "lastName": "Laan",
+    "birthDate": "1955-05-14",
+    "email": "maiemaie55@hot.ee",
+    "phoneNumber": "6347533",
+    "internetSpeedMbps": 50,
+    "stillUsesLandline": true
+  }
+]
