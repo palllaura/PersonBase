@@ -6,6 +6,7 @@ import ee.telia.personbase.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -20,6 +21,15 @@ public class PersonService {
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
+
+    /**
+     * Get all people in database.
+     * @return people in list.
+     */
+    public List<Person> getAllPeople() {
+        return (List<Person>) personRepository.findAll();
+    }
+
 
     /**
      * Save new person to database if validated.
@@ -94,7 +104,7 @@ public class PersonService {
      * @return true if correct, else false.
      */
     private boolean isValidPhoneNumber(String phoneNumber) {
-        return phoneNumber != null && phoneNumber.matches("\"^\\\\+?\\\\d{1,4}[- ]?\\\\d{6,10}$\"\n");
+        return phoneNumber != null && phoneNumber.matches("^\\d{5,12}$");
     }
 
 }
