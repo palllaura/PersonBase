@@ -1,33 +1,31 @@
-import logo from './assets/logo.png'
+import Navbar from './components/Navbar.jsx';
+import PersonTable from './components/PersonTable';
+
 import './App.css'
 import {useEffect, useState} from "react";
 
 function App() {
-
     const [people, setPeople] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredPeople = people.filter((person) =>
+        Object.values(person).some(value =>
+            String(value).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    );
 
     useEffect(() => {
         fetch('http://localhost:8080/api/people')
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
-            .then(data => {
-                console.log('Received:', data); // add this line
-                setPeople(data);
-            })
-            .catch(error => console.error('Error fetching people:', error));
+            .then(res => res.json())
+            .then(data => setPeople(data));
     }, []);
-
 
     return (
         <div>
-            <img src={logo} className="logo" alt="personbase logo"/>
-            <ul>
-                {people.map((person) => (
-                    <li key={person.id}>{person.firstName}</li>
-                ))}
-            </ul>
+            <main className="main">
+                <Navbar onSearch={setSearchTerm} />
+                <PersonTable people={filteredPeople} />
+            </main>
         </div>
 )
 }
