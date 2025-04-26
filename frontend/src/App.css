@@ -1,17 +1,3 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: white;
-}
-
-.main {
-  flex-grow: 1;
-  padding-top: 1rem;
-}
-
 .navbar {
   background-color: #ececec;
   padding: 1rem;
@@ -35,7 +21,6 @@ body, html {
 .button {
   min-height: 3em;
   margin-right: 0.5em;
-  background: none;
   border-color: #8e11d3;
   border-radius: 10px;
   color: #8e11d3;
@@ -111,7 +96,7 @@ body, html {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* dark background */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,6 +131,7 @@ body, html {
 
 .modal-label {
   font-weight: normal;
+  font-size: small;
   color: #333;
 }
 

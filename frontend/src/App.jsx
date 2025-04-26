@@ -3,7 +3,7 @@ import PersonTable from './components/PersonTable';
 import NewPersonModal from './components/NewPersonModal.jsx';
 
 import './App.css'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 function App() {
     const [people, setPeople] = useState([]);
@@ -17,7 +17,7 @@ function App() {
     );
 
     const fetchPeopleAgain = () => {
-        fetch('http://localhost:8080/api/people')
+        return fetch('http://localhost:8080/api/people')
             .then(res => res.json())
             .then(data => setPeople(data));
     };
@@ -26,17 +26,22 @@ function App() {
         fetchPeopleAgain();
     }, []);
 
-
     return (
         <div>
             <main className="main">
-                <Navbar onSearch={setSearchTerm} onAddPerson={() => setIsModalOpen(true)} />
-                <PersonTable people={filteredPeople} />
-                <NewPersonModal
-                    isOpen={isModalOpen}
+                <Navbar
+                    onSearch={setSearchTerm}
+                    onAddPerson={() => setIsModalOpen(true)}
+                />
+                <PersonTable
+                    people={filteredPeople}
+                    didEdit={fetchPeopleAgain}
+                    didDelete={fetchPeopleAgain}
+                />
+                {isModalOpen && (<NewPersonModal
                     onClose={() => setIsModalOpen(false)}
                     onPersonAdded={fetchPeopleAgain}
-                />
+                />)}
             </main>
         </div>
 )

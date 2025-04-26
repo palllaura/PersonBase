@@ -3,6 +3,7 @@ package ee.telia.personbase.service;
 import ee.telia.personbase.dto.ValidationResult;
 import ee.telia.personbase.entity.Person;
 import ee.telia.personbase.repository.PersonRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,6 +45,47 @@ public class PersonService {
             LOGGER.info(message);
         } else {
             String message = String.format("Failed to save person: %s %s", person.getFirstName(), person.getLastName());
+            LOGGER.warning(message);
+        }
+        return result;
+    }
+
+    /**
+     * Delete person from database.
+     * @param id ID of person to delete.
+     * @return true if person was deleted, false if not found or error.
+     */
+    public boolean deletePersonById(Long id) {
+        try {
+            personRepository.deleteById(id);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        } catch (Exception e) {
+            LOGGER.warning("Unexpected error while deleting person: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Edit existing person if validated.
+     * @param person Person to edit.
+     * @return validation result.
+     */
+    public ValidationResult editPerson(Person person) {
+        ValidationResult result = validatePerson(person);
+
+        if (!personRepository.existsById(person.getId())) {
+            result.addError("No person with given id found");
+            return result;
+        }
+
+        if (result.isValid()) {
+            personRepository.save(person);
+            String message = String.format("Successfully edited person: %s %s", person.getFirstName(), person.getLastName());
+            LOGGER.info(message);
+        } else {
+            String message = String.format("Failed to edit person: %s %s", person.getFirstName(), person.getLastName());
             LOGGER.warning(message);
         }
         return result;

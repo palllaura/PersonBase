@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import EditPersonModal from './EditPersonModal';
 
-const PersonTable = ({ people, onEdit }) => {
+const PersonTable = ({ people, didEdit, didDelete }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sortAsc, setSortAsc] = useState(true);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [personToEdit, setPersonToEdit] = useState(null);
 
     const handleSort = (key) => {
         if (key === sortKey) {
@@ -27,6 +30,16 @@ const PersonTable = ({ people, onEdit }) => {
     const renderArrow = (key) => {
         if (sortKey !== key) return null;
         return sortAsc ? " △" : " ▽";
+    };
+
+    const handleEditClick = (person) => {
+        setPersonToEdit(person);
+        setIsEditModalOpen(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setIsEditModalOpen(false);
+        setPersonToEdit(null);
     };
 
     return (
@@ -70,7 +83,7 @@ const PersonTable = ({ people, onEdit }) => {
                         <td className="px-4 py-2">{person.internetSpeedMbps}</td>
                         <td className="px-4 py-2">
                             <button
-                                onClick={() => onEdit(person)}
+                                onClick={() => handleEditClick(person)}
                                 className="button"
                             >
                                 edit / delete
@@ -80,6 +93,16 @@ const PersonTable = ({ people, onEdit }) => {
                 ))}
                 </tbody>
             </table>
+
+            {isEditModalOpen && (
+                <EditPersonModal
+                    isOpen={isEditModalOpen}
+                    onClose={handleCloseEditModal}
+                    personToEdit={personToEdit}
+                    onEdited={didEdit}
+                    onDeleted={didDelete}
+                />
+            )}
         </div>
     );
 };

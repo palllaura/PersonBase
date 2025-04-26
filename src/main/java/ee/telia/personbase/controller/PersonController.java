@@ -38,4 +38,20 @@ public class PersonController {
     public ValidationResult addPerson(@RequestBody Person person) {
         return personService.savePerson(person);
     }
+
+    /**
+     * Edit existing person.
+     * @param person person to edit.
+     * @return validation result.
+     */
+    @PostMapping("/edit")
+    public ValidationResult editPerson(@RequestBody Person person) {
+        return personService.editPerson(person);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public boolean deletePerson(@PathVariable Long id) {
+        return personService.deletePersonById(id);
+    }
+
 }
