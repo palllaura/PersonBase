@@ -19,12 +19,21 @@ const PersonTable = ({ people, didEdit, didDelete }) => {
     const sortedPeople = [...people].sort((a, b) => {
         if (!sortKey) return 0;
 
-        const aValue = a[sortKey]?.toString().toLowerCase();
-        const bValue = b[sortKey]?.toString().toLowerCase();
+        const aValue = a[sortKey];
+        const bValue = b[sortKey];
 
-        if (aValue < bValue) return sortAsc ? -1 : 1;
-        if (aValue > bValue) return sortAsc ? 1 : -1;
-        return 0;
+        const aIsNumber = typeof aValue === 'number';
+        const bIsNumber = typeof bValue === 'number';
+
+        if (aIsNumber && bIsNumber) {
+            return sortAsc ? aValue - bValue : bValue - aValue;
+        } else {
+            const aStr = String(aValue).toLowerCase();
+            const bStr = String(bValue).toLowerCase();
+            if (aStr < bStr) return sortAsc ? -1 : 1;
+            if (aStr > bStr) return sortAsc ? 1 : -1;
+            return 0;
+        }
     });
 
     const renderArrow = (key) => {
