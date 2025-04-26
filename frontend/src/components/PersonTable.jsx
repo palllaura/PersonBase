@@ -55,9 +55,6 @@ const PersonTable = ({ people, onEdit }) => {
                     <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort("internetSpeedMbps")}>
                         internet speed (mbps){renderArrow("internetSpeedMbps")}
                     </th>
-                    <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort("stillUsesLandline")}>
-                        landline{renderArrow("stillUsesLandline")}
-                    </th>
                     <th className="px-4 py-2">actions</th>
                 </tr>
                 </thead>
@@ -71,7 +68,6 @@ const PersonTable = ({ people, onEdit }) => {
                         <td className="px-4 py-2">{person.email}</td>
                         <td className="px-4 py-2">{person.phoneNumber}</td>
                         <td className="px-4 py-2">{person.internetSpeedMbps}</td>
-                        <td className="px-4 py-2">{person.stillUsesLandline ? "✓" : "-"}</td>
                         <td className="px-4 py-2">
                             <button
                                 onClick={() => onEdit(person)}

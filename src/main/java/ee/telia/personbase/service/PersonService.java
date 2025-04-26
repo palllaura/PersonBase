@@ -69,23 +69,24 @@ public class PersonService {
             result.addError(message);
         }
 
-        if (person.getBirthDate() != null && person.getBirthDate().isAfter(LocalDate.now())) {
-            String message = String.format("Birth date cannot be in the future: %s", person.getBirthDate());
+        if (person.getBirthDate() == null || person.getBirthDate().isAfter(LocalDate.now())) {
+            String message = "Birth date is missing or invalid";
             LOGGER.warning(message);
             result.addError(message);
         }
 
         if (!isValidEmail(person.getEmail())) {
-            String message = String.format("Invalid email address: %s", person.getEmail());
+            String message = "Email address is invalid";
             LOGGER.warning(message);
             result.addError(message);
         }
 
         if (!isValidPhoneNumber(person.getPhoneNumber())) {
-            String message = String.format("Invalid phone number: %s", person.getPhoneNumber());
+            String message = "Phone number is invalid";
             LOGGER.warning(message);
             result.addError(message);
         }
+
         return result;
     }
 

@@ -1,11 +1,11 @@
 import logo from "../assets/logo.png";
 import '../App.css';
 
-export default function Navbar({ onSearch }) {
+export default function Navbar({ onSearch, onAddPerson }) {
     return (
         <div className="navbar">
             <img src={logo} className="logo" alt="personbase logo" />
-            <button className="button">
+            <button className="button" onClick={onAddPerson}>
                 add new person
             </button>
 

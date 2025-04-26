@@ -27,5 +27,4 @@ public class Person {
 
     private int internetSpeedMbps;
 
-    private boolean stillUsesLandline;
 }

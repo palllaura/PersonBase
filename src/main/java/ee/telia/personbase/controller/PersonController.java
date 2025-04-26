@@ -34,7 +34,7 @@ public class PersonController {
      * @param person person to add.
      * @return validation result.
      */
-    @PostMapping
+    @PostMapping("/add")
     public ValidationResult addPerson(@RequestBody Person person) {
         return personService.savePerson(person);
     }
