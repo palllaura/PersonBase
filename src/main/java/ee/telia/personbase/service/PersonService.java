@@ -75,12 +75,13 @@ public class PersonService {
      * @return validation result.
      */
     public ValidationResult editPerson(Person person) {
-        ValidationResult result = personValidator.validate(person);
-
         if (!personRepository.existsById(person.getId())) {
+            ValidationResult result = new ValidationResult();
             result.addError("No person with given id found");
             return result;
         }
+
+        ValidationResult result = personValidator.validate(person);
 
         if (result.isValid()) {
             personRepository.save(person);
@@ -92,6 +93,4 @@ public class PersonService {
         }
         return result;
     }
-
-
 }
