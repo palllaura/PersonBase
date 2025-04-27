@@ -1,6 +1,7 @@
 package ee.telia.personbase;
 
 import ee.telia.personbase.dto.ValidationResult;
+import ee.telia.personbase.entity.InternetSpeed;
 import ee.telia.personbase.entity.Person;
 import ee.telia.personbase.repository.PersonRepository;
 import ee.telia.personbase.service.PersonValidator;
@@ -23,6 +24,7 @@ class PersonValidatorTests {
     void setup() {
         repository = mock(PersonRepository.class);
         validator = new PersonValidator(repository);
+        person = createTestPerson();
     }
 
     /**
@@ -36,22 +38,20 @@ class PersonValidatorTests {
         person.setEmail("toomas@mets.ee");
         person.setPhoneNumber("56666666");
         person.setBirthDate(LocalDate.of(1980, 2, 13));
-        person.setInternetSpeedMbps(500);
+        person.setInternetSpeedMbps(InternetSpeed.MBPS400);
         return person;
     }
 
     @Test
     void validationSuccessful() {
-        person = createTestPerson();
         result = validator.validate(person);
         Assertions.assertTrue(result.isValid());
     }
 
     @Test
     void validationFailsIfPersonWithSameNameAndBirthdateExists() {
-        person = createTestPerson();
-        when(repository.existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(
-                "Toomas", "Mets", LocalDate.of(1980, 2, 13)
+        when(repository.existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDateAndIdNot(
+                "Toomas", "Mets", LocalDate.of(1980, 2, 13), person.getId()
         )).thenReturn(true);
 
         result = validator.validate(person);
@@ -64,7 +64,6 @@ class PersonValidatorTests {
 
     @Test
     void validationFailsNameIsOnlyWhitespace() {
-        person = createTestPerson();
         person.setFirstName("     ");
         result = validator.validate(person);
         Assertions.assertFalse(result.isValid());
@@ -73,17 +72,14 @@ class PersonValidatorTests {
 
     @Test
     void validationFailsBirthDateIsInTheFuture() {
-        person = createTestPerson();
         person.setBirthDate(LocalDate.now().plusDays(1));
         result = validator.validate(person);
         Assertions.assertFalse(result.isValid());
         Assertions.assertTrue(result.getMessages().contains("Birth date is missing or invalid"));
-
     }
 
     @Test
     void validationFailsEmailIsInvalid() {
-        person = createTestPerson();
         person.setEmail("toomas2gmail.com");
         result = validator.validate(person);
 
@@ -93,11 +89,20 @@ class PersonValidatorTests {
 
     @Test
     void validationFailsInvalidPhoneNumber() {
-        person = createTestPerson();
         person.setPhoneNumber("112");
         result = validator.validate(person);
 
         Assertions.assertFalse(result.isValid());
         Assertions.assertTrue(result.getMessages().contains("Phone number is invalid"));
+    }
+
+    @Test
+    void validationFailsInvalidInternetSpeed() {
+        person.setInternetSpeedMbps(InternetSpeed.NONE);
+        result = validator.validate(person);
+
+        Assertions.assertFalse(result.isValid());
+        Assertions.assertTrue(result.getMessages().contains("Internet speed is invalid"));
+
     }
 }

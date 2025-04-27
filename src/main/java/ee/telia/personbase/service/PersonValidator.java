@@ -1,6 +1,7 @@
 package ee.telia.personbase.service;
 
 import ee.telia.personbase.dto.ValidationResult;
+import ee.telia.personbase.entity.InternetSpeed;
 import ee.telia.personbase.entity.Person;
 import ee.telia.personbase.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,11 @@ public class PersonValidator {
             result.addError("Phone number is invalid");
         }
 
+        if (person.getInternetSpeedMbps() == InternetSpeed.NONE) {
+            String message = "Internet speed is invalid";
+            result.addError(message);
+        }
+
         return result;
     }
 
@@ -68,13 +74,13 @@ public class PersonValidator {
     }
 
     /**
-     * Check if there is a person with same name and birthdate in database.
+     * Check if there is a person with same name and birthdate in database excluding person with same id.
      * @param person person whose name and birthdate to check.
      * @return true if possible duplicate was found, else false.
      */
     private boolean checkForPossibleDuplicate(Person person) {
-        return personRepository.existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(
-                person.getFirstName(), person.getLastName(), person.getBirthDate()
+        return personRepository.existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDateAndIdNot(
+                person.getFirstName(), person.getLastName(), person.getBirthDate(), person.getId()
         );
     }
 

@@ -25,6 +25,6 @@ public class Person {
     private String email;
     private String phoneNumber;
 
-    private int internetSpeedMbps;
+    private InternetSpeed internetSpeedMbps;
 
 }

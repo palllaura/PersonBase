@@ -116,11 +116,11 @@ export default function EditPersonModal({ onClose, personToEdit, onEdited, onDel
                         value={state.internetSpeed}
                         onChange={(e) => setState({ ...state, internetSpeed: e.target.value })}
                     >
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                        <option value="400">400</option>
-                        <option value="1000">1000</option>
+                        <option value="50 Mbps">50 Mbps</option>
+                        <option value="100 Mbps">100 Mbps</option>
+                        <option value="200 Mbps">200 Mbps</option>
+                        <option value="400 Mbps">400 Mbps</option>
+                        <option value="1000 Mbps">1000 Mbps</option>
                     </select>
                 </div>
 

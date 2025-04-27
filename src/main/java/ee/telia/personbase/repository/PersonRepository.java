@@ -9,10 +9,12 @@ import java.time.LocalDate;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-    boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(
+    boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDateAndIdNot(
             String firstName,
             String lastName,
-            LocalDate birthDate
+            LocalDate birthDate,
+            Long id
     );
+
 
 }
