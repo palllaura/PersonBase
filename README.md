@@ -47,3 +47,7 @@ PersonBase is a simple web application for managing a list of people with their 
    npm run dev
 4. The frontend will be available at:
    http://localhost:5173
+
+<img width="1052" alt="Screenshot 2025-04-27 at 18 14 06" src="https://github.com/user-attachments/assets/e9f7cb2b-f74f-483f-bbd2-c12943ef9af5" />
+
+
